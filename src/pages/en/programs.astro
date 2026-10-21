@@ -1,0 +1,4 @@
+---
+import Base from '../../layouts/Base.astro';import PageHero from '../../components/PageHero.astro';import ContentCard from '../../components/ContentCard.astro';import {getCollection} from 'astro:content';const items=(await getCollection('programs',e=>e.id.startsWith('en/')&&!e.data.draft)).sort((a,b)=>String(b.data.date||'').localeCompare(String(a.data.date||'')));
+---
+<Base title="Programs | EFD" description="Programs" lang="en"><PageHero title="Programs" subtitle="Published foundation content"/><section class="section alt"><div class="container">{items.length?<div class="grid g3">{items.map(entry=><ContentCard entry={entry} base="/en/programs" lang="en"/>)}</div>:<div class="notice">No published content is currently available.</div>}</div></section></Base>
