@@ -1,0 +1,123 @@
+media:
+  - {name: images, label: الصور, input: public/uploads/images, output: /uploads/images, categories: [image], extensions: [jpg, jpeg, png, webp, avif, svg], rename: safe}
+  - {name: documents, label: المستندات, input: public/uploads/documents, output: /uploads/documents, categories: [document], extensions: [pdf, doc, docx, xls, xlsx, ppt, pptx], rename: safe}
+content:
+  - name: settings
+    label: إعدادات الموقع
+    type: file
+    path: src/data/settings.json
+    fields:
+      - {name: organization_ar, label: الاسم بالعربية, type: string, required: true}
+      - {name: organization_en, label: الاسم بالإنجليزية, type: string, required: true}
+      - {name: short_name, label: الاختصار, type: string}
+      - {name: tagline_ar, label: الشعار بالعربية, type: string}
+      - {name: tagline_en, label: الشعار بالإنجليزية, type: string}
+      - {name: description_ar, label: الوصف بالعربية, type: text}
+      - {name: description_en, label: الوصف بالإنجليزية, type: text}
+      - {name: founded, label: سنة التأسيس, type: number}
+      - {name: email, label: البريد, type: string}
+      - {name: phone, label: الهاتف, type: string}
+      - {name: address_ar, label: العنوان بالعربية, type: text}
+      - {name: address_en, label: العنوان بالإنجليزية, type: text}
+      - {name: facebook, label: Facebook, type: string}
+      - {name: linkedin, label: LinkedIn, type: string}
+      - {name: youtube, label: YouTube, type: string}
+      - {name: map_url, label: رابط الخريطة, type: string}
+      - {name: default_og_image, label: صورة المشاركة الافتراضية, type: image, options: {media: images}}
+  - name: news_ar
+    label: الأخبار العربية
+    type: collection
+    path: src/content/news/ar
+    format: yaml-frontmatter
+    filename: '{fields.slug}.md'
+    fields: &article
+      - {name: title, label: العنوان, type: string, required: true}
+      - {name: slug, label: الرابط المختصر, type: string, required: true, pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'}
+      - {name: excerpt, label: الملخص, type: text, required: true}
+      - {name: image, label: الصورة, type: image, options: {media: images}}
+      - {name: featured, label: مميز, type: boolean, default: false}
+      - {name: draft, label: مسودة, type: boolean, default: true}
+      - {name: date, label: التاريخ, type: date, required: true}
+      - {name: author, label: الكاتب, type: string}
+      - {name: body, label: المحتوى, type: rich-text, required: true}
+  - {name: news_en, label: English News, type: collection, path: src/content/news/en, format: yaml-frontmatter, filename: '{fields.slug}.md', fields: *article}
+  - name: projects_ar
+    label: المشاريع العربية
+    type: collection
+    path: src/content/projects/ar
+    format: yaml-frontmatter
+    filename: '{fields.slug}.md'
+    fields: &project
+      - {name: title, label: الاسم, type: string, required: true}
+      - {name: slug, label: الرابط, type: string, required: true}
+      - {name: excerpt, label: الملخص, type: text}
+      - {name: image, label: الصورة, type: image, options: {media: images}}
+      - {name: featured, label: مميز, type: boolean}
+      - {name: draft, label: مسودة, type: boolean}
+      - {name: program, label: البرنامج, type: string}
+      - {name: donor, label: المانح, type: string}
+      - {name: location, label: الموقع, type: string}
+      - {name: startDate, label: البداية, type: date}
+      - {name: endDate, label: النهاية, type: date}
+      - {name: status, label: الحالة, type: select, options: {values: [planned, active, completed]}}
+      - {name: beneficiaries, label: المستفيدون, type: number}
+      - {name: body, label: التفاصيل, type: rich-text}
+  - {name: projects_en, label: English Projects, type: collection, path: src/content/projects/en, format: yaml-frontmatter, filename: '{fields.slug}.md', fields: *project}
+  - name: programs_ar
+    label: البرامج العربية
+    type: collection
+    path: src/content/programs/ar
+    format: yaml-frontmatter
+    filename: '{fields.slug}.md'
+    fields: &program
+      - {name: title, label: الاسم, type: string, required: true}
+      - {name: slug, label: الرابط, type: string, required: true}
+      - {name: excerpt, label: الملخص, type: text}
+      - {name: image, label: الصورة, type: image, options: {media: images}}
+      - {name: featured, label: مميز, type: boolean}
+      - {name: draft, label: مسودة, type: boolean}
+      - {name: order, label: الترتيب, type: number}
+      - {name: icon, label: الأيقونة, type: string}
+      - {name: body, label: التفاصيل, type: rich-text}
+  - {name: programs_en, label: English Programs, type: collection, path: src/content/programs/en, format: yaml-frontmatter, filename: '{fields.slug}.md', fields: *program}
+  - name: stories_ar
+    label: قصص النجاح العربية
+    type: collection
+    path: src/content/stories/ar
+    format: yaml-frontmatter
+    filename: '{fields.slug}.md'
+    fields: &story
+      - {name: title, label: العنوان, type: string, required: true}
+      - {name: slug, label: الرابط, type: string, required: true}
+      - {name: excerpt, label: الملخص, type: text}
+      - {name: image, label: الصورة, type: image, options: {media: images}}
+      - {name: featured, label: مميزة, type: boolean}
+      - {name: draft, label: مسودة, type: boolean}
+      - {name: date, label: التاريخ, type: date}
+      - {name: program, label: البرنامج, type: string}
+      - {name: location, label: الموقع, type: string}
+      - {name: consentConfirmed, label: تأكيد موافقة النشر, type: boolean, required: true}
+      - {name: body, label: القصة, type: rich-text}
+  - {name: stories_en, label: English Stories, type: collection, path: src/content/stories/en, format: yaml-frontmatter, filename: '{fields.slug}.md', fields: *story}
+  - name: reports_ar
+    label: التقارير العربية
+    type: collection
+    path: src/content/reports/ar
+    format: yaml-frontmatter
+    filename: '{fields.slug}.md'
+    fields: &report
+      - {name: title, label: العنوان, type: string, required: true}
+      - {name: slug, label: الرابط, type: string, required: true}
+      - {name: excerpt, label: الملخص, type: text}
+      - {name: image, label: الغلاف, type: image, options: {media: images}}
+      - {name: featured, label: مميز, type: boolean}
+      - {name: draft, label: مسودة, type: boolean}
+      - {name: date, label: التاريخ, type: date}
+      - {name: document, label: الملف, type: file, options: {media: documents}}
+      - {name: reportType, label: النوع, type: string}
+      - {name: body, label: الوصف, type: rich-text}
+  - {name: reports_en, label: English Reports, type: collection, path: src/content/reports/en, format: yaml-frontmatter, filename: '{fields.slug}.md', fields: *report}
+settings:
+  content: {merge: true}
+  commit:
+    templates: {create: 'content: create {collection} {filename}', update: 'content: update {collection} {filename}', delete: 'content: delete {collection} {filename}', upload: 'media: upload {filename}'}
