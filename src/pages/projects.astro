@@ -1,4 +1,27 @@
 ---
-import Base from '../layouts/Base.astro';import PageHero from '../components/PageHero.astro';import ContentCard from '../components/ContentCard.astro';import {getCollection} from 'astro:content';const items=(await getCollection('projects',e=>e.id.startsWith('ar/')&&!e.data.draft)).sort((a,b)=>String(b.data.date||'').localeCompare(String(a.data.date||'')));
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ContentCard from '../components/ContentCard.astro';
+import { getCollection } from 'astro:content';
+
+const items = (await getCollection('projects', (entry) => entry.id.startsWith('ar/') && !entry.data.draft)).sort((a, b) => {
+  const aDate = a.data.startDate ?? a.data.date ?? new Date(0);
+  const bDate = b.data.startDate ?? b.data.date ?? new Date(0);
+  return new Date(bDate).getTime() - new Date(aDate).getTime();
+});
 ---
-<Base title="المشاريع | EFD" description="المشاريع" lang="ar"><PageHero title="المشاريع" subtitle="محتوى المؤسسة المنشور"/><section class="section alt"><div class="container">{items.length?<div class="grid g3">{items.map(entry=><ContentCard entry={entry} base="/projects" lang="ar"/>)}</div>:<div class="notice">لا يوجد محتوى منشور حاليًا.</div>}</div></section></Base>
+
+<Base title="المشاريع | EFD" description="المشاريع" lang="ar">
+  <PageHero title="المشاريع" subtitle="محتوى المؤسسة المنشور" />
+  <section class="section alt">
+    <div class="container">
+      {items.length ? (
+        <div class="grid">
+          {items.map((item) => <ContentCard entry={item} base="/projects" lang="ar" />)}
+        </div>
+      ) : (
+        <p>لا توجد مشاريع منشورة حاليًا.</p>
+      )}
+    </div>
+  </section>
+</Base>

@@ -1,4 +1,39 @@
 ---
-import Base from '../../layouts/Base.astro';import {getCollection,render} from 'astro:content';export async function getStaticPaths(){const entries=await getCollection('news',e=>e.id.startsWith('ar/')&&!e.data.draft);return entries.map(entry=>({params:{slug:entry.data.slug},props:{entry}}))}const {entry}=Astro.props;const {Content}=await render(entry);const d=entry.data;
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('news', (entry) => entry.id.startsWith('ar/'));
+  return entries.map((entry) => ({ params: { slug: entry.data.slug } }));
+}
+
+const slugParam = Astro.params.slug;
+if (!slugParam) {
+  throw new Error('Missing slug parameter');
+}
+
+const entries = await getCollection('news', (entry) => entry.id.startsWith('ar/'));
+const entry = entries.find((item) => item.data.slug === slugParam);
+if (!entry) {
+  throw new Error(`Entry not found: ${slugParam}`);
+}
+
+const d = entry.data;
+const { Content } = await render(entry);
+const image = typeof d.image === 'string' ? d.image : undefined;
 ---
-<Base title={`${d.title} | EFD`} description={d.excerpt} image={d.image} lang="ar"><section class="pagehero"><div class="container"><h1>{d.title}</h1><p>{d.excerpt}</p></div></section><article class="section"><div class="container content">{d.image&&<img src={d.image} alt={d.title}/>}<Content/>{"document" in d&&d.document&&<p><a class="btn" href={d.document}>تنزيل الملف</a></p>}</div></article></Base>
+
+<Base title={`${d.title} | EFD`} description={d.excerpt} image={image} lang="ar">
+  <section class="pagehero">
+    <div class="container">
+      <h1>{d.title}</h1>
+      <p>{d.excerpt}</p>
+    </div>
+  </section>
+  <article class="section">
+    <div class="container content">
+      {image && <img src={image} alt={d.title} />}
+      <Content />
+    </div>
+  </article>
+</Base>

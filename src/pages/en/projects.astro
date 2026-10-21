@@ -1,4 +1,27 @@
 ---
-import Base from '../../layouts/Base.astro';import PageHero from '../../components/PageHero.astro';import ContentCard from '../../components/ContentCard.astro';import {getCollection} from 'astro:content';const items=(await getCollection('projects',e=>e.id.startsWith('en/')&&!e.data.draft)).sort((a,b)=>String(b.data.date||'').localeCompare(String(a.data.date||'')));
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import ContentCard from '../../components/ContentCard.astro';
+import { getCollection } from 'astro:content';
+
+const items = (await getCollection('projects', (entry) => entry.id.startsWith('en/') && !entry.data.draft)).sort((a, b) => {
+  const aDate = a.data.startDate ?? a.data.date ?? new Date(0);
+  const bDate = b.data.startDate ?? b.data.date ?? new Date(0);
+  return new Date(bDate).getTime() - new Date(aDate).getTime();
+});
 ---
-<Base title="Projects | EFD" description="Projects" lang="en"><PageHero title="Projects" subtitle="Published foundation content"/><section class="section alt"><div class="container">{items.length?<div class="grid g3">{items.map(entry=><ContentCard entry={entry} base="/en/projects" lang="en"/>)}</div>:<div class="notice">No published content is currently available.</div>}</div></section></Base>
+
+<Base title="Projects | EFD" description="Projects" lang="en">
+  <PageHero title="Projects" subtitle="Published foundation content" />
+  <section class="section alt">
+    <div class="container">
+      {items.length ? (
+        <div class="grid">
+          {items.map((item) => <ContentCard entry={item} base="/en/projects" lang="en" />)}
+        </div>
+      ) : (
+        <p>No published projects yet.</p>
+      )}
+    </div>
+  </section>
+</Base>
