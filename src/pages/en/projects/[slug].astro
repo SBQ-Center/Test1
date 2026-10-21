@@ -1,0 +1,4 @@
+---
+import Base from '../../../layouts/Base.astro';import {getCollection,render} from 'astro:content';export async function getStaticPaths(){const entries=await getCollection('projects',e=>e.id.startsWith('en/')&&!e.data.draft);return entries.map(entry=>({params:{slug:entry.data.slug},props:{entry}}))}const {entry}=Astro.props;const {Content}=await render(entry);const d=entry.data;
+---
+<Base title={`${d.title} | EFD`} description={d.excerpt} image={d.image} lang="en"><section class="pagehero"><div class="container"><h1>{d.title}</h1><p>{d.excerpt}</p></div></section><article class="section"><div class="container content">{d.image&&<img src={d.image} alt={d.title}/>}<Content/>{"document" in d&&d.document&&<p><a class="btn" href={d.document}>Download document</a></p>}</div></article></Base>
