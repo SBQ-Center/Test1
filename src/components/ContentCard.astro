@@ -1,0 +1,4 @@
+---
+const {entry,base,lang='ar'}=Astro.props;const d=entry.data;
+---
+<article class="card"><img class="cover" src={d.image||'/images/cover-2.svg'} alt={d.title}/><div class="body">{d.date&&<div class="meta">{new Date(d.date).toLocaleDateString(lang==='ar'?'ar-YE':'en-GB')}</div>}<h3><a href={`${base}/${d.slug}`}>{d.title}</a></h3><p>{d.excerpt}</p><a class="btn" href={`${base}/${d.slug}`}>{lang==='ar'?'التفاصيل':'Details'}</a></div></article>
