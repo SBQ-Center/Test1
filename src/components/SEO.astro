@@ -1,0 +1,5 @@
+---
+import settings from '../data/settings.json';const {title,description='',image=settings.default_og_image,canonical,lang='ar',alternate}=Astro.props;const url=canonical||Astro.url.href;
+const schema={"@context":"https://schema.org","@type":"Organization",name:settings.organization_en,alternateName:settings.organization_ar,url:'https://efd-ye.org',email:settings.email,foundingDate:String(settings.founded),sameAs:[settings.facebook].filter(Boolean)};
+---
+<meta name="description" content={description}/><link rel="canonical" href={url}/><meta property="og:type" content="website"/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:image" content={new URL(image,Astro.site)}/><meta property="og:url" content={url}/><meta name="twitter:card" content="summary_large_image"/><link rel="alternate" hreflang={lang==='ar'?'en':'ar'} href={alternate}/><script type="application/ld+json" set:html={JSON.stringify(schema)}/><title>{title}</title>
