@@ -1,0 +1,4 @@
+---
+import Base from '../layouts/Base.astro';import PageHero from '../components/PageHero.astro';import ContentCard from '../components/ContentCard.astro';import {getCollection} from 'astro:content';const items=(await getCollection('reports',e=>e.id.startsWith('ar/')&&!e.data.draft)).sort((a,b)=>String(b.data.date||'').localeCompare(String(a.data.date||'')));
+---
+<Base title="التقارير والإصدارات | EFD" description="التقارير والإصدارات" lang="ar"><PageHero title="التقارير والإصدارات" subtitle="محتوى المؤسسة المنشور"/><section class="section alt"><div class="container">{items.length?<div class="grid g3">{items.map(entry=><ContentCard entry={entry} base="/reports" lang="ar"/>)}</div>:<div class="notice">لا يوجد محتوى منشور حاليًا.</div>}</div></section></Base>
