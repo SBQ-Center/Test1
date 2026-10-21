@@ -68,7 +68,8 @@ const opportunities = defineCollection({
   schema: base.extend({
     date: z.coerce.date(),
     deadline: z.coerce.date().optional(),
-    kind: z.enum(['job', 'internship', 'volunteer', 'other']).optional(),
+    kind: z.enum(['job', 'internship', 'volunteer', 'career', 'other']).optional(),
+    status: z.enum(['draft', 'published', 'closed']).optional(),
   }),
 });
 
